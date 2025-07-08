@@ -18,7 +18,7 @@ This is a simple browser-based **Rock Paper Scissors** game built with **React**
 - React + Vite
 - Local state management with `useState` and `useEffect`
 - Data persistence using `localStorage`
-- Deployed via [Vercel](https://vercel.com)
+- Deployed via [Vercel](https://rock-paper-scissors-hoqb.vercel.app/)
 
 ---
 
