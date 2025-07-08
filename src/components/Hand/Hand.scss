@@ -1,0 +1,100 @@
+.hand {
+  display: inline-block;
+  margin: 20px;
+  width: 160px;
+  height: 160px;
+  position: relative;
+  transform: rotate(10deg);
+}
+
+.limb {
+  position: absolute;
+  box-sizing: border-box;
+  border: 2px solid var(--hand-border-color);
+  background-color: var(--hand-color);
+  transition: all 0.1s;
+}
+
+.fist {
+  width: 90px;
+  height: 110px;
+  top: 50px;
+  left: 40px;
+  border-radius: 20px 0 0 20px;
+}
+
+.finger {
+  width: 70px;
+  height: 30px;
+  border-radius: 20px;
+  left: 80px;
+  transform-origin: 0 50%;
+}
+
+.index {
+  top: 50px;
+  --dif: 0px;
+}
+
+.middle {
+  top: 78px;
+  left: 84px;
+  --dif: 4px;
+}
+
+.ring {
+  top: 106px;
+  --dif: 0px;
+}
+
+.pinky {
+  top: 134px;
+  height: 26px;
+  left: 76px;
+  --dif: -8px;
+}
+
+.thumb {
+  width: 35px;
+  height: 70px;
+  border-radius: 0 20px 20px 20px;
+  border-left: 0 solid;
+  top: 50px;
+  left: 80px;
+  box-shadow: -17px 6px 0 -15px var(--hand-border-color);
+}
+
+.arm {
+  border: 0;
+  border-top: 2px solid var(--hand-border-color);
+  border-bottom: 2px solid var(--hand-border-color);
+  width: 22px;
+  height: 70px;
+  left: 20px;
+  top: 70px;
+}
+
+.scissors {
+  .index {
+    width: 130px;
+    transform: rotate(-5deg);
+  }
+
+  .middle {
+    width: 130px;
+    transform: rotate(5deg);
+  }
+}
+
+.paper {
+  .index,
+  .middle,
+  .ring,
+  .pinky {
+    left: 124px;
+    left: calc(124px + var(--dif));
+    width: 80px;
+    border-left: 0;
+    border-radius: 0 20px 20px 0;
+  }
+}

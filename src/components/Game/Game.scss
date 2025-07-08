@@ -1,0 +1,197 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  padding: 2%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+  overflow-x: hidden;
+  text-align: center;
+
+  background-image: url('./bg.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+
+  border: 2px solid var(--primary-color);
+  box-shadow:
+    0 0 5px var(--primary-color),
+    0 0 10px var(--primary-color),
+    0 0 20px var(--primary-color),
+    0 0 40px var(--primary-color),
+    inset 0 0 10px var(--primary-color);
+
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.title-text {
+  margin-bottom: 20px;
+  font-size: 3rem;
+  text-shadow:
+    -1px -1px 0 var(--secondary-color),
+    1px -1px 0 var(--secondary-color),
+    -1px 1px 0 var(--secondary-color),
+    1px 1px 0 var(--secondary-color),
+    0 0 5px var(--secondary-color),
+    0 0 10px var(--secondary-color),
+    0 0 20px var(--secondary-color),
+    0 0 40px var(--secondary-color);
+}
+
+.title {
+  width: 21ch;
+  display: inline-block;
+  border-right: 3px solid #000;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 2rem;
+
+  animation:
+    typewriter 3s steps(21, end) infinite alternate,
+    blink 800ms step-end infinite;
+
+  text-shadow:
+    0 0 2px #fff,
+    0 0 5px var(--primary-color),
+    0 0 10px var(--primary-color),
+    0 0 20px var(--primary-color),
+    0 0 40px var(--primary-color);
+}
+
+.win-status {
+  text-shadow:
+    -1px -1px 0 var(--win-color),
+    1px -1px 0 var(--win-color),
+    -1px 1px 0 var(--win-color),
+    1px 1px 0 var(--win-color);
+}
+
+.lose-status {
+  text-shadow:
+    -1px -1px 0 var(--lose-color),
+    1px -1px 0 var(--lose-color),
+    -1px 1px 0 var(--lose-color),
+    1px 1px 0 var(--lose-color);
+}
+
+.draw-status {
+  text-shadow:
+    -1px -1px 0 var(--draw-color),
+    1px -1px 0 var(--draw-color),
+    -1px 1px 0 var(--draw-color),
+    1px 1px 0 var(--draw-color);
+}
+
+.hands {
+  display: flex;;
+  align-items: center;
+  gap: 20px;
+}
+
+.player-hand-wrap {
+  margin-top: -30px;
+  transform: scale(0.8) rotateY(180deg);
+}
+
+.opponent-hand-wrap {
+  margin-top: -30px;
+  transform: scale(0.8);
+}
+
+.results {
+  font-size: 2rem;
+  font-weight: 600;
+  text-shadow:
+      -1px -1px 0 var(--helper-color),
+      1px -1px 0 var(--helper-color),
+      -1px 1px 0 var(--helper-color),
+      1px 1px 0 var(--helper-color),
+}
+
+.player-hand {
+  animation: handShake var(--hand-shake-animation-duration) infinite;
+}
+
+.opponent-hand {
+  animation: handShake var(--hand-shake-animation-duration) infinite;
+}
+
+.no-animation {
+  animation: none !important;
+}
+
+.game-status {
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+.gestures {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 20px;
+}
+
+.select-gesture {
+  border-radius: 20px;
+  border-color: var(--secondary-color);
+  background-color: #000;
+  height: 80px;
+  width: 80px;
+  font-size: 1.5rem;
+}
+
+.reset-button {
+  padding: 10px;
+  border-radius: 20px;
+  border-color: var(--secondary-color);
+  background-color: transparent;
+  color: #fff;
+  font-size: 1rem;
+}
+.select-gesture:hover,
+.reset-button:hover {
+  box-shadow:
+    0 0 10px var(--secondary-color),
+    0 0 20px var(--secondary-color),
+    0 0 40px var(--secondary-color),
+    0 0 60px var(--secondary-color),
+    inset 0 0 20px var(--secondary-color);
+
+  transform: scale(1.02);
+  cursor: pointer;
+}
+
+@keyframes handShake {
+  0%,
+  100% {
+    transform: rotate(10deg);
+  }
+
+  50% {
+    transform: rotate(-10deg);
+  }
+}
+
+@keyframes typewriter {
+  from {
+    width: 0ch;
+  }
+
+  to {
+    width: 21ch;
+  }
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    border-color: black;
+  }
+
+  50% {
+    border-color: transparent;
+  }
+}
