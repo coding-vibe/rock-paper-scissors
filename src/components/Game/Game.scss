@@ -60,6 +60,46 @@
     0 0 40px var(--primary-color);
 }
 
+.hands {
+  display: flex;;
+  align-items: center;
+  gap: 40px;
+}
+
+.player-hand-wrap {
+  margin-top: -40px;
+  transform: scale(0.8) rotateY(180deg);
+}
+
+.opponent-hand-wrap {
+  margin-top: -40px;
+  transform: scale(0.8);
+}
+
+.results {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-shadow:
+      -1px -1px 0 var(--helper-color),
+      1px -1px 0 var(--helper-color),
+      -1px 1px 0 var(--helper-color),
+      1px 1px 0 var(--helper-color),
+}
+
+.hand {
+  animation: handShake var(--hand-shake-animation-duration) infinite;
+}
+
+.no-animation {
+  animation: none !important;
+}
+
+.game-status {
+  min-height: 40px;
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
 .win-status {
   text-shadow:
     -1px -1px 0 var(--win-color),
@@ -84,49 +124,6 @@
     1px 1px 0 var(--draw-color);
 }
 
-.hands {
-  display: flex;;
-  align-items: center;
-  gap: 20px;
-}
-
-.player-hand-wrap {
-  margin-top: -30px;
-  transform: scale(0.8) rotateY(180deg);
-}
-
-.opponent-hand-wrap {
-  margin-top: -30px;
-  transform: scale(0.8);
-}
-
-.results {
-  font-size: 2rem;
-  font-weight: 600;
-  text-shadow:
-      -1px -1px 0 var(--helper-color),
-      1px -1px 0 var(--helper-color),
-      -1px 1px 0 var(--helper-color),
-      1px 1px 0 var(--helper-color),
-}
-
-.player-hand {
-  animation: handShake var(--hand-shake-animation-duration) infinite;
-}
-
-.opponent-hand {
-  animation: handShake var(--hand-shake-animation-duration) infinite;
-}
-
-.no-animation {
-  animation: none !important;
-}
-
-.game-status {
-  margin-bottom: 20px;
-  font-size: 2rem;
-}
-
 .gestures {
   margin-bottom: 20px;
   display: flex;
@@ -137,12 +134,19 @@
   border-radius: 20px;
   border-color: var(--secondary-color);
   background-color: #000;
-  height: 80px;
-  width: 80px;
+  height: 60px;
+  width: 60px;
   font-size: 1.5rem;
 }
 
-.reset-button {
+.buttons-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+
+.game-button {
   padding: 10px;
   border-radius: 20px;
   border-color: var(--secondary-color);
@@ -150,8 +154,13 @@
   color: #fff;
   font-size: 1rem;
 }
+
+.next-round-button {
+  color: var(--win-color);
+}
+
 .select-gesture:hover,
-.reset-button:hover {
+.game-button:hover {
   box-shadow:
     0 0 10px var(--secondary-color),
     0 0 20px var(--secondary-color),
@@ -160,17 +169,36 @@
     inset 0 0 20px var(--secondary-color);
 
   transform: scale(1.02);
-  cursor: pointer;
+}
+
+.select-gesture:disabled:hover,
+.game-button:disabled:hover
+ {
+  opacity: 0.9;
+  box-shadow: none;
+  transform: none;
+  cursor: default;
 }
 
 @keyframes handShake {
-  0%,
-  100% {
-    transform: rotate(10deg);
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  25% {
+    transform: rotate(6deg) scale(1.05);
   }
 
   50% {
-    transform: rotate(-10deg);
+    transform: rotate(-6deg) scale(1.05);
+  }
+
+  75% {
+    transform: rotate(3deg) scale(1.02);
+  }
+
+  100% {
+    transform: rotate(0deg) scale(1);
   }
 }
 

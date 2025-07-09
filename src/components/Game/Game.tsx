@@ -10,15 +10,20 @@ interface Results {
   player: number;
   bot: number;
 }
+const INITIAL_RESULTS = { player: 0, bot: 0 };
+
+const LOCAL_STORAGE_KEY = "results";
+
+const DELAY = 500;
 
 export default function Game() {
   const [opponentChoice, setOpponentChoice] = useState<null | Gesture>(null);
   const [playerChoice, setPlayerChoice] = useState<null | Gesture>(null);
   const [gameStatus, setGameStatus] = useState<null | GameStatus>(null);
-  const [results, setResults] = useState<Results>({ player: 0, bot: 0 });
+  const [results, setResults] = useState<Results>(INITIAL_RESULTS);
 
   useEffect(() => {
-    const savedResults = localStorage.getItem("results");
+    const savedResults = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (savedResults) {
       const parsedSavedResults = JSON.parse(savedResults);
       setResults(parsedSavedResults);
@@ -28,38 +33,49 @@ export default function Game() {
   const isGameFinished = !!gameStatus;
 
   const handleSelectGesture = (gesture: Gesture) => {
-    const { id } = pickRandomElement(gestures);
+    const { id: opponent } = pickRandomElement(gestures);
 
     setPlayerChoice(gesture);
-    setOpponentChoice(id);
+    setOpponentChoice(opponent);
+    setGameStatus(null);
 
-    if (gesture === id) {
-      setGameStatus(GameStatus.DRAW);
-    } else if (
-      (gesture === Gesture.ROCK && id === Gesture.SCISSORS) ||
-      (gesture === Gesture.PAPER && id === Gesture.ROCK) ||
-      (gesture === Gesture.SCISSORS && id === Gesture.PAPER)
-    ) {
-      setGameStatus(GameStatus.WIN);
-      setResults((prev) => {
-        const updated = { ...prev, player: (prev.player ?? 0) + 1 };
-        localStorage.setItem("results", JSON.stringify(updated));
-        return updated;
-      });
-    } else {
-      setGameStatus(GameStatus.LOSE);
-      setResults((prev) => {
-        const updated = { ...prev, bot: (prev.bot ?? 0) + 1 };
-        localStorage.setItem("results", JSON.stringify(updated));
-        return updated;
-      });
-    }
+    setTimeout(() => {
+      if (gesture === opponent) {
+        setGameStatus(GameStatus.DRAW);
+      } else if (
+        (gesture === Gesture.ROCK && opponent === Gesture.SCISSORS) ||
+        (gesture === Gesture.PAPER && opponent === Gesture.ROCK) ||
+        (gesture === Gesture.SCISSORS && opponent === Gesture.PAPER)
+      ) {
+        setGameStatus(GameStatus.WIN);
+        setResults((prev) => {
+          const updated = { ...prev, player: (prev.player ?? 0) + 1 };
+          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updated));
+          return updated;
+        });
+      } else {
+        setGameStatus(GameStatus.LOSE);
+        setResults((prev) => {
+          const updated = { ...prev, bot: (prev.bot ?? 0) + 1 };
+          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updated));
+          return updated;
+        });
+      }
+    }, DELAY);
   };
 
-  const handleResetChoice = () => {
+  const handleNextRound = () => {
     setOpponentChoice(null);
     setPlayerChoice(null);
     setGameStatus(null);
+  };
+
+  const handleRestartGame = () => {
+    setOpponentChoice(null);
+    setPlayerChoice(null);
+    setGameStatus(null);
+    setResults(INITIAL_RESULTS);
+    localStorage.removeItem(LOCAL_STORAGE_KEY);
   };
 
   return (
@@ -68,12 +84,14 @@ export default function Game() {
       <h1 className="title">ROCK PAPER SCISSORS</h1>
       <div className="hands">
         <div>
-          <p className="results">Bot</p>
-          <p className="results">{results.bot}</p>
+          <div className="results">
+            <p>Bot</p>
+            <p>{results.bot}</p>
+          </div>
           <div className="opponent-hand-wrap">
             <Hand
               className={clsx(
-                "opponent-hand",
+                "hand",
                 isGameFinished && "no-animation",
                 opponentChoice
               )}
@@ -86,7 +104,7 @@ export default function Game() {
           <div className="player-hand-wrap">
             <Hand
               className={clsx(
-                "player-hand",
+                "hand",
                 isGameFinished && "no-animation",
                 playerChoice
               )}
@@ -94,19 +112,17 @@ export default function Game() {
           </div>
         </div>
       </div>
-      {!!gameStatus && (
-        <div className="game-status">
-          {gameStatus === GameStatus.WIN && (
-            <span className="win-status">You Win!</span>
-          )}
-          {gameStatus === GameStatus.LOSE && (
-            <span className="lose-status">You Lose!</span>
-          )}
-          {gameStatus === GameStatus.DRAW && (
-            <span className="draw-status">It's a Draw!</span>
-          )}
-        </div>
-      )}
+      <div className="game-status">
+        {gameStatus === GameStatus.WIN && (
+          <span className="win-status">You Win!</span>
+        )}
+        {gameStatus === GameStatus.LOSE && (
+          <span className="lose-status">You Lose!</span>
+        )}
+        {gameStatus === GameStatus.DRAW && (
+          <span className="draw-status">It's a Draw!</span>
+        )}
+      </div>
       <div className="gestures">
         {gestures.map(({ id, icon }) => (
           <button
@@ -120,14 +136,23 @@ export default function Game() {
           </button>
         ))}
       </div>
-      <button
-        className="reset-button"
-        type="button"
-        onClick={handleResetChoice}
-        disabled={!isGameFinished}
-      >
-        Restart Game
-      </button>
+      <div className="buttons-wrap">
+        <button
+          className="next-round-button game-button"
+          type="button"
+          onClick={handleNextRound}
+          disabled={!isGameFinished}
+        >
+          Next Round
+        </button>
+        <button
+          className="game-button"
+          type="button"
+          onClick={handleRestartGame}
+        >
+          Restart Game
+        </button>
+      </div>
     </div>
   );
 }
