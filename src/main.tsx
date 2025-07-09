@@ -3,7 +3,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import Game from "@/components/Game";
 import "@/styles/variables.scss";
-import "../reset.scss";
+import "@/styles/reset.scss";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
